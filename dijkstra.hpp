@@ -7,14 +7,25 @@
 #include <iterator>
 #include <optional>
 
+template <typename F, typename ... Args>
+concept Callable = requires(F f, Args ... args)
+{
+ f(args...);
+};
+
+template <typename ... Args>
+using EmptyCallable = decltype([](Args ...){});
+
 /**
  * In graph g, find the shortest path to t.
  */
-template <typename Graph, typename Permanent, typename Tentative,
-          typename Label, typename Functor>
+template <typename Graph, typename Label,
+          typename Permanent, typename Tentative,
+          Callable<const Label &> V = EmptyCallable<const Label &>>
 void
-dijkstra(const Graph &g, Permanent &P, Tentative &T, const Label &sl,
-         const Functor &f, Vertex<Graph> t)
+dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
+         const Callable<const Edge<Graph> &, const Label &> &f,
+         const V &visit = {})
 {
   // Boot the search.
   T.push(sl);
@@ -22,11 +33,12 @@ dijkstra(const Graph &g, Permanent &P, Tentative &T, const Label &sl,
   while(!T.empty())
     {
       const auto &l = move_label(T, P);
-      const auto &v = get_target(l);
 
-      // Stop searching when we reach the destination node.
-      if (v == t)
-        break;
+      // Call the visit visitor.
+      visit(l);
+
+      // The target of the label.
+      const auto &v = get_target(l);
 
       // Itereate over the out edges of vertex v.
       for(const auto &e: boost::make_iterator_range(out_edges(v, g)))
@@ -37,11 +49,12 @@ dijkstra(const Graph &g, Permanent &P, Tentative &T, const Label &sl,
 /**
  * Try to relax edge e, given label l.
  */
-template <typename Graph, typename Permanent, typename Tentative,
-          typename Label, typename Functor>
+template <typename Graph, typename Label,
+          typename Permanent, typename Tentative>
 void
-relax(const Graph &g, Permanent &P, Tentative &T, const Edge<Graph> &e,
-      const Label &l, const Functor &f)
+relax(const Graph &g, const Edge<Graph> &e, const Label &l,
+      Permanent &P, Tentative &T, 
+      const Callable<const Edge<Graph> &, const Label &> &f)
 {
   try
     {
