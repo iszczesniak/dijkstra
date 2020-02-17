@@ -18,10 +18,13 @@ using EmptyCallable = decltype([](Args ...){});
 
 /**
  * In graph g, find the shortest path to t.
+ *
+ * Callable<const Label &> V = EmptyCallable<const Label &>
+ *
  */
 template <typename Graph, typename Label,
           typename Permanent, typename Tentative,
-          Callable<const Label &> V = EmptyCallable<const Label &>>
+          Callable<const Label &> V>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
          const Callable<const Edge<Graph> &, const Label &> &f,
@@ -42,7 +45,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
 
       // Itereate over the out edges of vertex v.
       for(const auto &e: boost::make_iterator_range(out_edges(v, g)))
-        relax(g, P, T, e, l, f);
+        relax(g, e, l, P, T, f);
     }
 }
 
