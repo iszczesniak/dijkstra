@@ -59,6 +59,12 @@ relax(const Graph &g, const Edge<Graph> &e, const Label &l,
       Permanent &P, Tentative &T, 
       const Callable<const Edge<Graph> &, const Label &> &f)
 {
+  // This try block gives me a headache.  I need this, because for the
+  // standard_dijkstra there might not be candidate labels returned by
+  // functor f, and I signal this by throwing a bool.  However, I
+  // would prefer to return an empty std::optional, but the problem is
+  // that it cannot be used in the foreach loop, since it has no
+  // begin, and end functions.  I leave this as future work.
   try
     {
       // Candidate labels.
@@ -69,7 +75,7 @@ relax(const Graph &g, const Edge<Graph> &e, const Label &l,
 	  {
 	    purge_worse(T, cl);
 	    // We push the new label after purging, so that purging
-	    // has less work, i.e., a smaller Q.  Furthermore, in
+	    // has less work, i.e., a smaller T.  Furthermore, in
 	    // purge_worse we are using the <= operator, which would
 	    // remove the label we push below.
 	    T.push(std::move(cl));
