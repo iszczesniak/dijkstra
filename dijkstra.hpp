@@ -59,6 +59,7 @@ template <typename Graph, typename Label,
           typename Permanent, typename Tentative>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
+         const Callable<const Edge<Graph> &, const Label &> &f,
          const Vertex<Graph> &dst)
 {
   // Run the search.
@@ -71,7 +72,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
                    };
 
       // Run the search.
-      dijkstra(g, l, P, T, c, visit);
+      dijkstra(g, sl, P, T, f, visit);
     }
   catch (bool status)
     {
