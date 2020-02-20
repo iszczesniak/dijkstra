@@ -17,7 +17,7 @@ template <typename ... Args>
 using EmptyCallable = decltype([](Args ...){});
 
 /**
- * In graph g, find the shortest path to t.
+ * Run the generic Dijkstra algorithm.
  *
  * Callable<const Label &> V = EmptyCallable<const Label &>
  *
@@ -46,6 +46,36 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
       // Itereate over the out edges of vertex v.
       for(const auto &e: boost::make_iterator_range(out_edges(v, g)))
         relax(g, e, l, P, T, f);
+    }
+}
+
+/**
+ * Run the generic Dijkstra algorithm, stop at dst.
+ *
+ * Callable<const Label &> V = EmptyCallable<const Label &>
+ *
+ */
+template <typename Graph, typename Label,
+          typename Permanent, typename Tentative>
+void
+dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
+         const Vertex<Graph> &dst)
+{
+  // Run the search.
+  try
+    {
+      auto visit = [dst](const auto &l)
+                   {
+                     if (dst == get_target(l))
+                       throw true;
+                   };
+
+      // Run the search.
+      dijkstra(g, l, P, T, c, visit);
+    }
+  catch (bool status)
+    {
+      assert(status);
     }
 }
 
