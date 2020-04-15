@@ -22,7 +22,7 @@ template <typename ... Args>
 struct EmptyCallable
 {
   void
-  operator()(Args ...)
+  operator()(Args ...) const
   {
   }
 };
