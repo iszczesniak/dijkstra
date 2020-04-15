@@ -11,18 +11,28 @@ concept Callable = requires(F f, Args ... args)
  f(args...);
 };
 
+// Empy callable could be as simple as:
+
+// template <typename ... Args>
+// using EmptyCallable = decltype([](Args ...){});
+
+// The above crashes GCC 9.3.0 with an internal error.  This works:
+
 template <typename ... Args>
-using EmptyCallable = decltype([](Args ...){});
+struct EmptyCallable
+{
+  void
+  operator()(Args ...)
+  {
+  }
+};
 
 /**
  * Run the generic Dijkstra algorithm.
- *
- * Callable<const Label &> V = EmptyCallable<const Label &>
- *
  */
 template <typename Graph, typename Label,
           typename Permanent, typename Tentative,
-          Callable<const Label &> V>
+          Callable<const Label &> V = EmptyCallable<const Label &>>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
          const Callable<const Edge<Graph> &, const Label &> &f,
@@ -49,9 +59,6 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
 
 /**
  * Run the generic Dijkstra algorithm, stop at dst.
- *
- * Callable<const Label &> V = EmptyCallable<const Label &>
- *
  */
 template <typename Graph, typename Label,
           typename Permanent, typename Tentative>
