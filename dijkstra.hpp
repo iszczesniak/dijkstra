@@ -52,7 +52,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
       const auto &v = get_target(l);
 
       // Itereate over the out edges of vertex v.
-      for(const auto &e: out_edges(v, g))
+      for(const auto &e: out_edges(v))
         relax(g, e, l, P, T, f);
     }
 }
