@@ -1,41 +1,24 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
+#include <concepts>
 #include <list>
 #include <iterator>
 #include <optional>
 
-template <typename F, typename ... Args>
-concept Callable = requires(F f, Args ... args)
-{
- f(args...);
-};
-
-// Empy callable could be as simple as:
-
-// template <typename ... Args>
-// using EmptyCallable = decltype([](Args ...){});
-
-// The above crashes GCC 9.3.0 with an internal error.  This works:
-
 template <typename ... Args>
-struct EmptyCallable
-{
-  void
-  operator()(Args ...) const
-  {
-  }
-};
+using EmptyCallable = decltype([](Args ...){});
 
 /**
  * Run the generic Dijkstra algorithm.
  */
 template <typename Graph, typename Label,
           typename Permanent, typename Tentative,
-          Callable<const Label &> V = EmptyCallable<const Label &>>
+          std::invocable<const Label &>
+          V = EmptyCallable<const Label &>>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
-         const Callable<const Edge<Graph> &, const Label &> &f,
+         const std::invocable<const Edge<Graph> &, const Label &> &f,
          const V &visit = {})
 {
   // Boot the search.
@@ -64,7 +47,7 @@ template <typename Graph, typename Label,
           typename Permanent, typename Tentative>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
-         const Callable<const Edge<Graph> &, const Label &> &f,
+         const std::invocable<const Edge<Graph> &, const Label &> &f,
          const Vertex<Graph> &dst)
 {
   // Run the search.
@@ -93,7 +76,7 @@ template <typename Graph, typename Label,
 void
 relax(const Graph &g, const Edge<Graph> &e, const Label &l,
       Permanent &P, Tentative &T, 
-      const Callable<const Edge<Graph> &, const Label &> &f)
+      const std::invocable<const Edge<Graph> &, const Label &> &f)
 {
   // This try block gives me a headache.  I need this, because for the
   // standard_dijkstra there might not be candidate labels returned by
