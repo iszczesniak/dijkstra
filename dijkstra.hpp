@@ -1,13 +1,28 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
+#include <cassert>
 #include <concepts>
 #include <list>
 #include <iterator>
 #include <optional>
 
+// Empty callable could be as simple as:
+
+// template <typename ... Args>
+// using EmptyCallable = decltype([](Args ...){});
+
+// The above crashes GCC 9.3.0 and 10.1.0 with an internal error.
+// This works:
+
 template <typename ... Args>
-using EmptyCallable = decltype([](Args ...){});
+struct EmptyCallable
+{
+  void
+  operator()(Args ...)
+  {
+  }
+};
 
 /**
  * Run the generic Dijkstra algorithm.
