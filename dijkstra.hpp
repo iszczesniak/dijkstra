@@ -1,6 +1,9 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
+// The graph.hpp file should define template types of Vertex and Edge.
+#include "graph.hpp"
+
 #include <cassert>
 #include <concepts>
 #include <list>
