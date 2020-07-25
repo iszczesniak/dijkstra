@@ -1,22 +1,22 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
+// The graph.hpp file should define template types of Vertex and Edge.
+#include "graph.hpp"
+
+#include <cassert>
+#include <concepts>
 #include <list>
 #include <iterator>
 #include <optional>
 
-template <typename F, typename ... Args>
-concept Callable = requires(F f, Args ... args)
-{
- f(args...);
-};
-
-// Empy callable could be as simple as:
+// Empty callable could be as simple as:
 
 // template <typename ... Args>
 // using EmptyCallable = decltype([](Args ...){});
 
-// The above crashes GCC 9.3.0 with an internal error.  This works:
+// The above crashes GCC 9.3.0 and 10.1.0 with an internal error.
+// This works:
 
 template <typename ... Args>
 struct EmptyCallable
@@ -32,10 +32,12 @@ struct EmptyCallable
  */
 template <typename Graph, typename Label,
           typename Permanent, typename Tentative,
-          Callable<const Label &> V = EmptyCallable<const Label &>>
+          std::invocable<const Label &>
+          V = EmptyCallable<const Label &>>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
-         const Callable<const Edge<Graph> &, const Label &> &f,
+         const std::invocable<const Edge<Graph> &, const Label &>
+         auto &f,
          const V &visit = {})
 {
   // Boot the search.
@@ -49,7 +51,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
       visit(l);
 
       // The target of the label.
-      const auto &v = get_target(l);
+      const auto &v = target(l);
 
       // Itereate over the out edges of vertex v.
       for(const auto &e: out_edges(v))
@@ -64,7 +66,8 @@ template <typename Graph, typename Label,
           typename Permanent, typename Tentative>
 void
 dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
-         const Callable<const Edge<Graph> &, const Label &> &f,
+         const std::invocable<const Edge<Graph> &, const Label &>
+         auto &f,
          const Vertex<Graph> &dst)
 {
   // Run the search.
@@ -72,7 +75,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
     {
       auto visit = [dst](const auto &l)
                    {
-                     if (dst == get_target(l))
+                     if (dst == target(l))
                        throw true;
                    };
 
@@ -93,7 +96,8 @@ template <typename Graph, typename Label,
 void
 relax(const Graph &g, const Edge<Graph> &e, const Label &l,
       Permanent &P, Tentative &T, 
-      const Callable<const Edge<Graph> &, const Label &> &f)
+      const std::invocable<const Edge<Graph> &, const Label &>
+      auto &f)
 {
   // This try block gives me a headache.  I need this, because for the
   // standard_dijkstra there might not be candidate labels returned by
@@ -127,14 +131,14 @@ relax(const Graph &g, const Edge<Graph> &e, const Label &l,
  */
 template <typename Permanent, typename Vertex, typename Label,
           typename Tracer>
-std::optional<typename Tracer::path_t>
+std::optional<typename Tracer::path_type>
 trace(const Permanent &P, Vertex dst, const Label &sl, Tracer &t)
 {
   // Make sure there is the solution for vertex dst.
-  if (const auto &vd = P[dst]; !std::empty(vd))
+  if (const auto &vd = P[index(dst)]; !std::empty(vd))
     {
       // This is the path we're building.
-      typename Tracer::path_t result;
+      typename Tracer::path_type result;
 
       // Get the initial label, i.e. the label for the destination.
       for(auto i = t.init(result, vd); *i != sl; i = t.advance(P, i))
@@ -145,7 +149,7 @@ trace(const Permanent &P, Vertex dst, const Label &sl, Tracer &t)
     }
 
   // We return an empty optional, becase no path was found.
-  return std::optional<typename Tracer::path_t>();
+  return std::optional<typename Tracer::path_type>();
 }
 
 #endif // DIJKSTRA_HPP
