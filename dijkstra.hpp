@@ -131,14 +131,14 @@ relax(const Graph &g, const Edge<Graph> &e, const Label &l,
  */
 template <typename Permanent, typename Vertex, typename Label,
           typename Tracer>
-std::optional<typename Tracer::path_t>
+std::optional<typename Tracer::path_type>
 trace(const Permanent &P, Vertex dst, const Label &sl, Tracer &t)
 {
   // Make sure there is the solution for vertex dst.
   if (const auto &vd = P[dst]; !std::empty(vd))
     {
       // This is the path we're building.
-      typename Tracer::path_t result;
+      typename Tracer::path_type result;
 
       // Get the initial label, i.e. the label for the destination.
       for(auto i = t.init(result, vd); *i != sl; i = t.advance(P, i))
@@ -149,7 +149,7 @@ trace(const Permanent &P, Vertex dst, const Label &sl, Tracer &t)
     }
 
   // We return an empty optional, becase no path was found.
-  return std::optional<typename Tracer::path_t>();
+  return std::optional<typename Tracer::path_type>();
 }
 
 #endif // DIJKSTRA_HPP
