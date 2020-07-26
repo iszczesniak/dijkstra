@@ -135,7 +135,7 @@ std::optional<typename Tracer::path_type>
 trace(const Permanent &P, Vertex dst, const Label &sl, Tracer &t)
 {
   // Make sure there is the solution for vertex dst.
-  if (const auto &vd = P[dst]; !std::empty(vd))
+  if (const auto &vd = P[index(dst)]; !std::empty(vd))
     {
       // This is the path we're building.
       typename Tracer::path_type result;
