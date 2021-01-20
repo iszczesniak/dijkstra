@@ -51,10 +51,10 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
       visit(l);
 
       // The target of the label.
-      const auto &v = target(l);
+      const auto &v = get_target(l);
 
       // Itereate over the out edges of vertex v.
-      for(const auto &e: out_edges(v))
+      for(const auto &e: get_edges(v))
         relax(g, e, l, P, T, f);
     }
 }
@@ -75,7 +75,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
     {
       auto visit = [dst](const auto &l)
                    {
-                     if (dst == target(l))
+                     if (dst == get_target(l))
                        throw true;
                    };
 
