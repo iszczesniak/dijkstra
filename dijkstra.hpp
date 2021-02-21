@@ -27,6 +27,16 @@ struct EmptyCallable
   }
 };
 
+// Move the best label from T (the tentative labels) to P (the
+// permanent labels), and return a reference to the label in the new
+// place.
+template <typename TC, typename PC>
+const auto &
+move_label(TC &T, PC &P)
+{
+  return P.push(T.pop());
+}
+
 /**
  * Run the generic Dijkstra algorithm.
  */
