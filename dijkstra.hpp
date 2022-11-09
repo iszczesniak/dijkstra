@@ -1,8 +1,7 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
-// The graph.hpp file should define template types of Vertex and Edge.
-#include "graph.hpp"
+#include "label_robe.hpp"
 
 #include <cassert>
 #include <concepts>
@@ -19,7 +18,7 @@
 // This works:
 
 template <typename ... Args>
-struct EmptyCallable
+struct NoCallable
 {
   void
   operator()(Args ...) const
@@ -30,12 +29,10 @@ struct EmptyCallable
 /**
  * Run the generic Dijkstra algorithm.
  */
-template <typename Graph, typename Label,
-          typename Permanent, typename Tentative,
-          std::invocable<const Label &>
-          V = EmptyCallable<const Label &>>
+template <typename Label, typename Permanent, typename Tentative,
+          std::invocable<const Label &> V = NoCallable<const Label &>>
 void
-dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
+dijkstra(const Label &sl, Permanent &P, Tentative &T,
          const std::invocable<const Edge<Graph> &, const Label &>
          auto &f,
          const V &visit = {})
