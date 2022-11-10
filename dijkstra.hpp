@@ -33,13 +33,13 @@ template <typename Label, typename Edge,
           typename Permanent, typename Tentative,
           std::invocable<const Label &> V = NoCallable<const Label &>>
 void
-dijkstra(const label_robe<Label, Edge> &initial,
+dijkstra(const Label &initial, const Edge &null_edge,
          Permanent &P, Tentative &T,
          const std::invocable<const Label &, const Edge &> auto &f,
          const V &visit = {})
 {
   // Boot the search.
-  T.push(initial);
+  T.push(label_robe(initial, null_edge));
 
   while(!T.empty())
     {
@@ -63,7 +63,7 @@ dijkstra(const label_robe<Label, Edge> &initial,
 template <typename Label, typename Edge, typename Vertex,
           typename Permanent, typename Tentative>
 void
-dijkstra(const label_robe<Label, Edge> &initial,
+dijkstra(const Label &initial, const Edge &null_edge,
          Permanent &P, Tentative &T,
          const std::invocable<const Edge &, const Label &> auto &f,
          const Vertex &dst)
@@ -78,7 +78,7 @@ dijkstra(const label_robe<Label, Edge> &initial,
                    };
 
       // Run the search.
-      dijkstra(initial, P, T, f, visit);
+      dijkstra(initial, null_edge, P, T, f, visit);
     }
   catch (bool status)
     {
@@ -99,13 +99,11 @@ move_label(TC &T, PC &P)
 /**
  * Try to relax edge e, given label l.
  */
-template <typename Graph, typename Label,
+template <typename Label, typename Edge,
           typename Permanent, typename Tentative>
 void
-relax(const Graph &g, const Edge<Graph> &e, const Label &l,
-      Permanent &P, Tentative &T, 
-      const std::invocable<const Edge<Graph> &, const Label &>
-      auto &f)
+relax(const Label &l, const Edge &e, Permanent &P, Tentative &T,
+      const std::invocable<const Label &, const Edge &> auto &f)
 {
   // This try block gives me a headache.  I need this, because for the
   // standard_dijkstra there might not be candidate labels returned by
@@ -116,7 +114,7 @@ relax(const Graph &g, const Edge<Graph> &e, const Label &l,
   try
     {
       // Candidate labels.
-      auto cls = f(e, l);
+      auto cls = f(l, e);
 
       for (auto &cl: cls)
 	if (!has_better_or_equal(P, cl) && !has_better_or_equal(T, cl))

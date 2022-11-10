@@ -1,4 +1,4 @@
-TESTS = generic_dijkstra
+TESTS = generic
 
 #CXXFLAGS = -g -Wno-deprecated
 CXXFLAGS = -O3 -Wno-deprecated
