@@ -1,0 +1,12 @@
+[submodule "test/standard_dijkstra"]
+	path = test/standard_dijkstra
+	url = https://github.com/iszczesniak/standard_dijkstra
+[submodule "test/generic_dijkstra"]
+	path = test/generic_dijkstra
+	url = https://github.com/iszczesniak/generic_dijkstra
+[submodule "test/graph"]
+	path = test/graph
+	url = https://github.com/iszczesniak/graph2
+[submodule "test/units"]
+	path = test/units
+	url = https://github.com/iszczesniak/units

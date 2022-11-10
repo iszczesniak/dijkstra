@@ -29,16 +29,17 @@ struct NoCallable
 /**
  * Run the generic Dijkstra algorithm.
  */
-template <typename Label, typename Permanent, typename Tentative,
+template <typename Label, typename Edge,
+          typename Permanent, typename Tentative,
           std::invocable<const Label &> V = NoCallable<const Label &>>
 void
-dijkstra(const Label &sl, Permanent &P, Tentative &T,
-         const std::invocable<const Edge<Graph> &, const Label &>
-         auto &f,
+dijkstra(const label_robe<Label, Edge> &initial,
+         Permanent &P, Tentative &T,
+         const std::invocable<const Label &, const Edge &> auto &f,
          const V &visit = {})
 {
   // Boot the search.
-  T.push(sl);
+  T.push(initial);
 
   while(!T.empty())
     {
@@ -47,25 +48,25 @@ dijkstra(const Label &sl, Permanent &P, Tentative &T,
       // Call the visit visitor.
       visit(l);
 
-      // The target of the label.
+      // The target of the label, the label robe, specifically.
       const auto &v = get_target(l);
 
       // Itereate over the out edges of vertex v.
       for(const auto &e: get_edges(v))
-        relax(g, e, l, P, T, f);
+        relax(l, e, P, T, f);
     }
 }
 
 /**
  * Run the generic Dijkstra algorithm, stop at dst.
  */
-template <typename Graph, typename Label,
+template <typename Label, typename Edge, typename Vertex,
           typename Permanent, typename Tentative>
 void
-dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
-         const std::invocable<const Edge<Graph> &, const Label &>
-         auto &f,
-         const Vertex<Graph> &dst)
+dijkstra(const label_robe<Label, Edge> &initial,
+         Permanent &P, Tentative &T,
+         const std::invocable<const Edge &, const Label &> auto &f,
+         const Vertex &dst)
 {
   // Run the search.
   try
@@ -77,7 +78,7 @@ dijkstra(const Graph &g, const Label &sl, Permanent &P, Tentative &T,
                    };
 
       // Run the search.
-      dijkstra(g, sl, P, T, f, visit);
+      dijkstra(initial, P, T, f, visit);
     }
   catch (bool status)
     {
