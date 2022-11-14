@@ -18,10 +18,10 @@ main()
   // The null edge that is not part of the graph.
   edge_type null_edge(v1, v1, 0, {});
   // The label type, and the initial label.
-  using robe_type = label_robe<edge_type, generic_label<int, SU>>;
-  robe_type initial(0, {{0, 10}}, null_edge);
+  using robe_type = label_robe<edge_type, generic_label<int, CU>>;
+  robe_type initial(null_edge, 0, CU(0, 10));
 
-  generic_permanent<robe_type> P(num_vertexes(g));
-  generic_tentative<robe_type> T(num_vertexes(g));
-  dijkstra(initial, P, T, c);
+  // generic_permanent<robe_type> P(num_vertexes(g));
+  // generic_tentative<robe_type> T(num_vertexes(g));
+  // dijkstra(initial, P, T, c);
 }

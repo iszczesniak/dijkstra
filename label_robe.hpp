@@ -3,14 +3,14 @@
 
 #include <utility>
 
-template <typename Label, typename Edge>
+template <typename Edge, typename Label>
 struct label_robe: Label
 {
   using base_type = Label;
   Edge &m_edge;
 
   template <typename ... Args>
-  label_robe(Args && ... args, Edge &edge):
+  label_robe(Edge &edge, Args && ... args):
     base_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
