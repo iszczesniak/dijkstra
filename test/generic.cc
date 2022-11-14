@@ -3,6 +3,7 @@
 #include "generic_permanent.hpp"
 #include "generic_tentative.hpp"
 #include "graph.hpp"
+#include "label_robe.hpp"
 #include "units.hpp"
 
 int
@@ -14,13 +15,13 @@ main()
   auto &v2 = add_vertex(g, "v1");
   add_edge(v1, v2, 1, {{0, 5}});
 
-  using label_type = generic_label<int, SU>;
-  label_type initial(0, {{0, 10}});
-
   // The null edge that is not part of the graph.
-  edge<unsigned, SU> null_edge(v1, v1, 0, {});
+  edge_type null_edge(v1, v1, 0, {});
+  // The label type, and the initial label.
+  using robe_type = label_robe<edge_type, generic_label<int, SU>>;
+  robe_type initial(null_edge, 0, {{0, 10}});
 
-  generic_permanent<label_type, edge_type> P(num_vertexes(g));
-  generic_tentative<label_type, edge_type> T(num_vertexes(g));
-  // dijkstra(label_robe(initial, null_edge), P, T);
+  generic_permanent<robe_type> P(num_vertexes(g));
+  generic_tentative<robe_type> T(num_vertexes(g));
+  dijkstra(initial, P, T, c);
 }
