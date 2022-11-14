@@ -1,8 +1,6 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
-#include "label_robe.hpp"
-
 #include <cassert>
 #include <concepts>
 #include <list>
@@ -33,13 +31,12 @@ template <typename Label, typename Edge,
           typename Permanent, typename Tentative,
           std::invocable<const Label &> V = NoCallable<const Label &>>
 void
-dijkstra(const Label &initial, const Edge &null_edge,
-         Permanent &P, Tentative &T,
+dijkstra(const Label &initial, Permanent &P, Tentative &T,
          const std::invocable<const Label &, const Edge &> auto &f,
          const V &visit = {})
 {
   // Boot the search.
-  T.push(label_robe(initial, null_edge));
+  T.push(initial);
 
   while(!T.empty())
     {
@@ -48,7 +45,7 @@ dijkstra(const Label &initial, const Edge &null_edge,
       // Call the visit visitor.
       visit(l);
 
-      // The target of the label, the label robe, specifically.
+      // The target of the label.
       const auto &v = get_target(l);
 
       // Itereate over the out edges of vertex v.
@@ -63,9 +60,8 @@ dijkstra(const Label &initial, const Edge &null_edge,
 template <typename Label, typename Edge, typename Vertex,
           typename Permanent, typename Tentative>
 void
-dijkstra(const Label &initial, const Edge &null_edge,
-         Permanent &P, Tentative &T,
-         const std::invocable<const Edge &, const Label &> auto &f,
+dijkstra(const Label &initial, Permanent &P, Tentative &T,
+         const std::invocable<const Label &, const Edge &> auto &f,
          const Vertex &dst)
 {
   // Run the search.
