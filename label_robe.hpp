@@ -1,13 +1,17 @@
 #ifndef LABEL_ROBE_HPP
 #define LABEL_ROBE_HPP
 
+#include <utility>
+
 template <typename Label, typename Edge>
 struct label_robe: Label
 {
-  using base = Label;
+  using base_type = Label;
   Edge &m_edge;
 
-  label_robe(Edge &edge): m_edge(edge), base()
+  template <typename ... Args>
+  label_robe(Args && ... args, Edge &edge):
+    base_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
 };

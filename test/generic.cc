@@ -19,7 +19,7 @@ main()
   edge_type null_edge(v1, v1, 0, {});
   // The label type, and the initial label.
   using robe_type = label_robe<edge_type, generic_label<int, SU>>;
-  robe_type initial(null_edge, 0, {{0, 10}});
+  robe_type initial(0, {{0, 10}}, null_edge);
 
   generic_permanent<robe_type> P(num_vertexes(g));
   generic_tentative<robe_type> T(num_vertexes(g));
