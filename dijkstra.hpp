@@ -74,7 +74,7 @@ dijkstra(const Label &initial, Permanent &P, Tentative &T,
                    };
 
       // Run the search.
-      dijkstra(initial, null_edge, P, T, f, visit);
+      dijkstra(initial, P, T, f, visit);
     }
   catch (bool status)
     {
