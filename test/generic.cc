@@ -1,5 +1,6 @@
 #include "dijkstra.hpp"
 #include "generic_label.hpp"
+#include "generic_label_creator.hpp"
 #include "generic_permanent.hpp"
 #include "generic_tentative.hpp"
 #include "graph.hpp"
@@ -23,5 +24,5 @@ main()
 
   generic_permanent<robe_type> P(num_vertexes(g));
   generic_tentative<robe_type> T(num_vertexes(g));
-  // dijkstra(initial, P, T, c);
+  dijkstra(initial, P, T, generic_label_creator<robe_type>());
 }
