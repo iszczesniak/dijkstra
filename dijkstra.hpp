@@ -1,6 +1,8 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
+#include "graph_interface.hpp"
+
 #include <cassert>
 #include <concepts>
 #include <list>
@@ -27,12 +29,12 @@ struct NoCallable
 /**
  * Run the generic Dijkstra algorithm.
  */
-template <typename Label, typename Edge,
-          typename Permanent, typename Tentative,
+template <typename Label, typename Permanent, typename Tentative,
           std::invocable<const Label &> V = NoCallable<const Label &>>
 void
 dijkstra(const Label &initial, Permanent &P, Tentative &T,
-         const std::invocable<const Label &, const Edge &> auto &f,
+         const std::invocable<const Label &,
+                              const Edge<Label> &> auto &f,
          const V &visit = {})
 {
   // Boot the search.
@@ -57,11 +59,12 @@ dijkstra(const Label &initial, Permanent &P, Tentative &T,
 /**
  * Run the generic Dijkstra algorithm, stop at dst.
  */
-template <typename Label, typename Edge, typename Vertex,
-          typename Permanent, typename Tentative>
+template <typename Label, typename Permanent, typename Tentative,
+          typename Vertex>
 void
 dijkstra(const Label &initial, Permanent &P, Tentative &T,
-         const std::invocable<const Label &, const Edge &> auto &f,
+         const std::invocable<const Label &,
+                              const Edge<Label> &> auto &f,
          const Vertex &dst)
 {
   // Run the search.
@@ -95,11 +98,12 @@ move_label(TC &T, PC &P)
 /**
  * Try to relax edge e, given label l.
  */
-template <typename Label, typename Edge,
-          typename Permanent, typename Tentative>
+template <typename Label, typename Permanent, typename Tentative>
 void
-relax(const Label &l, const Edge &e, Permanent &P, Tentative &T,
-      const std::invocable<const Label &, const Edge &> auto &f)
+relax(const Label &l, const Edge<Label> &e,
+      Permanent &P, Tentative &T,
+      const std::invocable<const Label &,
+                           const Edge<Label> &> auto &f)
 {
   // This try block gives me a headache.  I need this, because for the
   // standard_dijkstra there might not be candidate labels returned by
