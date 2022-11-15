@@ -21,7 +21,7 @@ main()
   using robe_type = label_robe<edge_type, generic_label<int, CU>>;
   robe_type initial(null_edge, 0, CU(0, 10));
 
-  // generic_permanent<robe_type> P(num_vertexes(g));
-  // generic_tentative<robe_type> T(num_vertexes(g));
+  generic_permanent<robe_type> P(num_vertexes(g));
+  generic_tentative<robe_type> T(num_vertexes(g));
   // dijkstra(initial, P, T, c);
 }
