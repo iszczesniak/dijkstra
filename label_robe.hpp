@@ -9,10 +9,10 @@ template <typename Edge, typename Label>
 struct label_robe: Label
 {
   using base_type = Label;
-  Edge &m_edge;
+  const Edge &m_edge;
 
   template <typename ... Args>
-  label_robe(Edge &edge, Args && ... args):
+  label_robe(const Edge &edge, Args && ... args):
     base_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
