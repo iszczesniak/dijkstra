@@ -8,6 +8,8 @@
 #include "label_robe.hpp"
 #include "units.hpp"
 
+#include <iostream>
+
 int
 main()
 {
@@ -28,5 +30,12 @@ main()
   dijkstra(initial, P, T, generic_label_creator<robe_type>());
 
   // Get and return the path.
-  trace(initial, v1, generic_tracer(P));
+  auto op = trace(initial, v1, generic_tracer(P));
+
+  if (op)
+    {
+      const auto &p = op.value();
+      for(const auto &l: p)
+        std::cout << l;
+    }
 }
