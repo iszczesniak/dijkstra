@@ -9,13 +9,13 @@
 #include <iterator>
 #include <optional>
 
-// Empty callable could be as simple as:
+// The empty callable could be as simple as:
 
 // template <typename ... Args>
-// using EmptyCallable = decltype([](Args ...){});
+// using NoCallable = decltype([](Args ...){});
 
-// The above crashes GCC 9.3.0 and 10.1.0 with an internal error.
-// This works:
+// The above crashes GCC 12.2.0, 9.3.0 and 10.1.0 with an internal
+// error.  This works instead:
 
 template <typename ... Args>
 struct NoCallable
