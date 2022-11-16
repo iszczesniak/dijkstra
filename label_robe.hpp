@@ -20,6 +20,13 @@ struct label_robe: Label
 
 template <typename Label, typename Edge>
 const auto &
+get_edge(const label_robe<Label, Edge> &r)
+{
+  return r.m_edge;
+}
+
+template <typename Label, typename Edge>
+const auto &
 get_target(const label_robe<Label, Edge> &r)
 {
   return get_target(r.m_edge);
