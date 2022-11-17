@@ -30,7 +30,7 @@ main()
   dijkstra(initial, P, T, generic_label_creator<robe_type>());
 
   // Get and return the path.
-  auto op = trace(initial, v1, generic_tracer(P));
+  auto op = trace(initial, v2, generic_tracer(P));
 
   if (op)
     {
