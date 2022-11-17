@@ -3,6 +3,7 @@
 
 #include "graph_interface.hpp"
 
+#include <iostream>
 #include <utility>
 
 template <typename Edge, typename Label>
@@ -17,6 +18,18 @@ struct label_robe: Label
   {
   }
 };
+
+template <typename Edge, typename Label>
+std::ostream &
+operator << (std::ostream &os, const label_robe<Edge, Label> &r)
+{
+  os << "label_robe("
+     << "edge = " << r.m_edge << ", "
+     << "label = " << static_cast<Label>(r)
+     << ")";
+                                 
+  return os;                    
+}
 
 template <typename Label, typename Edge>
 const auto &

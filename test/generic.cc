@@ -36,6 +36,6 @@ main()
     {
       const auto &p = op.value();
       for(const auto &l: p)
-        std::cout << l;
+        std::cout << l << std::endl;
     }
 }
