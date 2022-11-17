@@ -12,7 +12,7 @@
 // The empty callable could be as simple as:
 
 // template <typename ... Args>
-// using NoCallable = decltype([](Args ...){});
+// using NoCallable = decltype([](Args && ...){});
 
 // The above crashes GCC 12.2.0, 9.3.0 and 10.1.0 with an internal
 // error.  This works instead:
@@ -21,7 +21,7 @@ template <typename ... Args>
 struct NoCallable
 {
   void
-  operator()(Args ...) const
+  operator()(Args && ...) const
   {
   }
 };
@@ -139,7 +139,7 @@ template <typename Label, typename Vertex, typename Tracer>
 std::optional<typename Tracer::path_type>
 trace(const Label &initial, const Vertex &dst, const Tracer &t)
 {
-  if (const auto &vd = t.labels(get_index(dst)); !std::empty(vd))
+  if (const auto &vd = t[get_index(dst)]; !std::empty(vd))
     {
       // This is the path we're building.
       typename Tracer::path_type result;
