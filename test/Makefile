@@ -10,6 +10,9 @@ CXXFLAGS := $(CXXFLAGS) -I graph
 CXXFLAGS := $(CXXFLAGS) -I standard_dijkstra
 CXXFLAGS := $(CXXFLAGS) -I units
 
+# Use the C++ linker
+LINK.o = $(LINK.cc)
+
 # Run the tests.
 run: $(TESTS)
 	@for i in $(TESTS); do echo "Running" $$i; ./$$i; done
@@ -23,6 +26,6 @@ clean:
 	rm -rf $(TESTS)
 
 depend:
-	g++ -MM -I../ *.cc > dependencies
+	g++ -MM $(CXXFLAGS) *.cc > dependencies
 
 include dependencies

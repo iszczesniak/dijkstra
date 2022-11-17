@@ -1,0 +1,7 @@
+generic.o: generic.cc ../dijkstra.hpp graph/graph_interface.hpp \
+ generic_dijkstra/generic_label.hpp \
+ generic_dijkstra/generic_label_creator.hpp graph/graph.hpp \
+ graph/graph_interface.hpp generic_dijkstra/generic_permanent.hpp \
+ generic_dijkstra/generic_tentative.hpp \
+ generic_dijkstra/generic_tracer.hpp ../label_robe.hpp units/units.hpp \
+ units/cunits.hpp units/sunits.hpp
