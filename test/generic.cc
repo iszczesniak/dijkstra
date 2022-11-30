@@ -1,9 +1,9 @@
-//#include "dijkstra.hpp"
+#include "dijkstra.hpp"
 #include "generic_label.hpp"
-//#include "generic_label_creator.hpp"
-//#include "generic_permanent.hpp"
-//#include "generic_tentative.hpp"
-//#include "generic_tracer.hpp"
+#include "generic_label_creator.hpp"
+#include "generic_permanent.hpp"
+#include "generic_tentative.hpp"
+#include "generic_tracer.hpp"
 #include "graph.hpp"
 #include "label_robe.hpp"
 #include "units.hpp"
@@ -20,9 +20,23 @@ using edge_type = edge<vertex_type_tmp, weight<unsigned>,
 using vertex_type = vertex_type_tmp<edge_type>;
 using graph_type = graph<vertex_type>;
 
+template<>
+struct index_traits<const vertex_type>
+{
+  using type = unsigned;
+};
+
+template<>
+struct index_traits<vertex_type>
+{
+  using type = unsigned;
+};
+
 int
 main()
 {
+  vertex_type v(0, std::string());
+
   graph_type g(2);
   auto &v1 = add_vertex(g, "v0");
   auto &v2 = add_vertex(g, "v1");
@@ -34,8 +48,8 @@ main()
   using robe_type = label_robe<edge_type, generic_label<int, CU>>;
   robe_type initial(null_edge, 0, CU(0, 10));
 
-  // generic_permanent<robe_type> P(num_vertexes(g));
-  // generic_tentative<robe_type> T(num_vertexes(g));
+  generic_permanent<robe_type> P(num_vertexes(g));
+  generic_tentative<robe_type> T(num_vertexes(g));
   // dijkstra(initial, P, T, generic_label_creator<robe_type>());
 
   // // Get and return the path.
