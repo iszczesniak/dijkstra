@@ -1,9 +1,9 @@
 #include "dijkstra.hpp"
-#include "generic_label.hpp"
-#include "generic_label_creator.hpp"
-#include "generic_permanent.hpp"
-#include "generic_tentative.hpp"
-#include "generic_tracer.hpp"
+#include "standard_label.hpp"
+#include "standard_label_creator.hpp"
+#include "standard_permanent.hpp"
+#include "standard_tentative.hpp"
+#include "standard_tracer.hpp"
 #include "graph.hpp"
 #include "label_robe.hpp"
 #include "units.hpp"
@@ -15,10 +15,15 @@ template <typename Edge>
 using vertex_type_tmp = vertex<Edge, index<unsigned>,
                                name<std::string>>;
 
-using edge_type = edge<vertex_type_tmp, weight<unsigned>,
-                       resources<SU>>;
+using edge_type = edge<vertex_type_tmp, weight<unsigned>>;
 using vertex_type = vertex_type_tmp<edge_type>;
 using graph_type = graph<vertex_type>;
+
+template<>
+struct vertex_traits<edge_type>
+{
+  using type = vertex_type;
+};
 
 int
 main()
