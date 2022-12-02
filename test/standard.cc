@@ -1,8 +1,8 @@
 #include "dijkstra.hpp"
-#include "standard_label_creator.hpp"
+// #include "standard_label_creator.hpp"
 #include "standard_permanent.hpp"
-#include "standard_tentative.hpp"
-#include "standard_tracer.hpp"
+// #include "standard_tentative.hpp"
+// #include "standard_tracer.hpp"
 #include "graph.hpp"
 #include "label_robe.hpp"
 #include "units.hpp"
@@ -21,8 +21,6 @@ using graph_type = graph<vertex_type>;
 int
 main()
 {
-  vertex_type v(0, std::string());
-
   graph_type g(2);
   auto &v1 = add_vertex(g, "v0");
   auto &v2 = add_vertex(g, "v1");
@@ -34,17 +32,17 @@ main()
   using robe_type = label_robe<edge_type, weight<int>>;
   robe_type initial(null_edge, 0);
 
-  generic_permanent<robe_type> P(num_vertexes(g));
-  generic_tentative<robe_type> T(num_vertexes(g));
-  dijkstra(initial, P, T, standard_label_creator<robe_type>());
+  standard_permanent<robe_type> P(num_vertexes(g));
+  // generic_tentative<robe_type> T(num_vertexes(g));
+  // dijkstra(initial, P, T, standard_label_creator<robe_type>());
 
-  // Get and return the path.
-  auto op = trace(initial, v2, generic_tracer(P));
+  // // Get and return the path.
+  // auto op = trace(initial, v2, generic_tracer(P));
 
-  if (op)
-    {
-      const auto &p = op.value();
-      for(const auto &l: p)
-        std::cout << l << std::endl;
-    }
+  // if (op)
+  //   {
+  //     const auto &p = op.value();
+  //     for(const auto &l: p)
+  //       std::cout << l << std::endl;
+  //   }
 }
