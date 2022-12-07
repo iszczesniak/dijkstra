@@ -45,6 +45,13 @@ get_target(const label_robe<Label, Edge> &r)
   return get_target(r.m_edge);
 }
 
+template <typename Label, typename Edge>
+const auto &
+get_index(const label_robe<Label, Edge> &r)
+{
+  return get_index(get_target(r.m_edge));
+}
+
 template <typename Edge, typename Label>
 struct edge_traits<label_robe<Edge, Label>>
 {
