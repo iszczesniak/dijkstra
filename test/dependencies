@@ -7,6 +7,8 @@ generic.o: generic.cc ../dijkstra.hpp graph/graph_interface.hpp \
  graph/graph_interface.hpp graph/props.hpp ../label_robe.hpp \
  units/units.hpp units/cunits.hpp units/sunits.hpp
 standard.o: standard.cc ../dijkstra.hpp graph/graph_interface.hpp \
- standard_dijkstra/standard_permanent.hpp graph/graph.hpp \
+ standard_dijkstra/standard_label_creator.hpp \
+ standard_dijkstra/standard_permanent.hpp \
+ standard_dijkstra/standard_tentative.hpp graph/graph.hpp \
  graph/graph_interface.hpp graph/props.hpp ../label_robe.hpp \
  units/units.hpp units/cunits.hpp units/sunits.hpp
