@@ -17,6 +17,13 @@ struct label_robe: Label
     base_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
+
+  constexpr auto
+  operator <=> (const label_robe &l) const
+  {
+    return static_cast<base_type>(*this) <=>
+      static_cast<base_type>(l);
+  }
 };
 
 template <typename Edge, typename Label>
