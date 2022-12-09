@@ -139,7 +139,7 @@ template <typename Label, typename Vertex, typename Tracer>
 std::optional<typename Tracer::path_type>
 trace(const Label &initial, const Vertex &dst, const Tracer &t)
 {
-  if (const auto &vd = t[get_index(dst)]; !std::empty(vd))
+  if (const auto &vd = t[dst]; !std::empty(vd))
     {
       // This is the path we're building.
       typename Tracer::path_type result;
