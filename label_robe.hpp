@@ -18,12 +18,7 @@ struct label_robe: Label
   {
   }
 
-  constexpr auto
-  operator <=> (const label_robe &l) const
-  {
-    return static_cast<base_type>(*this) <=>
-      static_cast<base_type>(l);
-  }
+  using base_type::operator<=>;
 };
 
 template <typename Edge, typename Label>
