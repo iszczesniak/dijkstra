@@ -39,10 +39,10 @@ main()
   // Get and return the path.
   auto op = trace(initial, v2, standard_tracer(P));
 
-  // if (op)
-  //   {
-  //     const auto &p = op.value();
-  //     for(const auto &l: p)
-  //       std::cout << l << std::endl;
-  //   }
+  if (op)
+    {
+      const auto &p = op.value();
+      for(const auto &l: p)
+        std::cout << l << std::endl;
+    }
 }
