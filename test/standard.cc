@@ -2,7 +2,7 @@
 #include "standard_label_creator.hpp"
 #include "standard_permanent.hpp"
 #include "standard_tentative.hpp"
-// #include "standard_tracer.hpp"
+#include "standard_tracer.hpp"
 #include "graph.hpp"
 #include "label_robe.hpp"
 #include "units.hpp"
@@ -36,8 +36,8 @@ main()
   standard_tentative<robe_type> T(num_vertexes(g));
   dijkstra(initial, P, T, standard_label_creator());
 
-  // // Get and return the path.
-  // auto op = trace(initial, v2, generic_tracer(P));
+  // Get and return the path.
+  auto op = trace(initial, v2, standard_tracer(P));
 
   // if (op)
   //   {
