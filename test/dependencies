@@ -1,5 +1,5 @@
 generic.o: generic.cc ../dijkstra.hpp graph/graph_interface.hpp \
- generic_dijkstra/generic_label.hpp \
+ generic_dijkstra/generic_label.hpp graph/props.hpp \
  generic_dijkstra/generic_label_creator.hpp \
  generic_dijkstra/generic_permanent.hpp \
  generic_dijkstra/generic_tentative.hpp \
@@ -8,7 +8,10 @@ generic.o: generic.cc ../dijkstra.hpp graph/graph_interface.hpp \
  units/units.hpp units/cunits.hpp units/sunits.hpp
 standard.o: standard.cc ../dijkstra.hpp graph/graph_interface.hpp \
  standard_dijkstra/standard_label_creator.hpp \
+ standard_dijkstra/standard_constrained_label_creator.hpp \
+ standard_dijkstra/standard_label_creator.hpp \
  standard_dijkstra/standard_permanent.hpp \
- standard_dijkstra/standard_tentative.hpp graph/graph.hpp \
+ standard_dijkstra/standard_tentative.hpp \
+ standard_dijkstra/standard_tracer.hpp graph/graph.hpp \
  graph/graph_interface.hpp graph/props.hpp ../label_robe.hpp \
  units/units.hpp units/cunits.hpp units/sunits.hpp
