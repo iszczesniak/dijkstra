@@ -17,8 +17,6 @@ struct label_robe: Label
     base_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
-
-  using base_type::operator<=>;
 };
 
 template <typename Edge, typename Label>

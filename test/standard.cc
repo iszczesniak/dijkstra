@@ -29,7 +29,7 @@ main()
 
   // The null edge that is not part of the graph.
   edge_type null_edge(v1, v1, 0);
-  // The label type, and the initial label.
+  // The label type (integer weight only), and the initial label.
   using robe_type = label_robe<edge_type, weight<unsigned>>;
   robe_type initial(null_edge, 0);
 
