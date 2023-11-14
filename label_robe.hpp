@@ -47,9 +47,9 @@ get_target(const label_robe<Label, Edge> &r)
 
 template <typename Label, typename Edge>
 const auto &
-get_index(const label_robe<Label, Edge> &r)
+get_key(const label_robe<Label, Edge> &r)
 {
-  return get_index(get_target(r.m_edge));
+  return get_key(get_target(r.m_edge));
 }
 
 template <typename Edge, typename Label>
