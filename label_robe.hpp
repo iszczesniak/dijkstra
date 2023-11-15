@@ -17,6 +17,14 @@ struct label_robe: Label
     base_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
+
+  // We delegate <=> to base_type.  We do not want the default
+  // implementation of <=> (i.e., lexicographic comparison), because
+  // m_edge should not take part.
+  constexpr auto operator <=> (const label_robe &l) const
+  {
+    return base_type::operator<=>(l);
+  }
 };
 
 template <typename Edge, typename Label>
