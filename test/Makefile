@@ -3,10 +3,11 @@ TESTS = generic standard
 #CXXFLAGS = -g -Wno-deprecated
 CXXFLAGS = -O3 -Wno-deprecated
 
-CXXFLAGS := -std=c++23
+CXXFLAGS := -std=c++20
 CXXFLAGS := $(CXXFLAGS) -I ../
 CXXFLAGS := $(CXXFLAGS) -I generic_dijkstra
 CXXFLAGS := $(CXXFLAGS) -I graph
+CXXFLAGS := $(CXXFLAGS) -I props
 CXXFLAGS := $(CXXFLAGS) -I standard_dijkstra
 CXXFLAGS := $(CXXFLAGS) -I units
 

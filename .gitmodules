@@ -10,3 +10,6 @@
 [submodule "test/units"]
 	path = test/units
 	url = https://github.com/iszczesniak/units
+[submodule "test/props"]
+	path = test/props
+	url = https://github.com/iszczesniak/props
