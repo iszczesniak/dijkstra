@@ -1,10 +1,10 @@
 #include "dijkstra.hpp"
 #include "generic_label.hpp"
-#include "generic_label_creator.hpp"
 #include "generic_permanent.hpp"
 #include "generic_tentative.hpp"
 #include "generic_tracer.hpp"
 #include "graph.hpp"
+#include "label_creator_cu.hpp"
 #include "label_robe.hpp"
 #include "units.hpp"
 
@@ -38,7 +38,7 @@ main()
 
   generic_permanent<robe_type> P(num_vertexes(g));
   generic_tentative<robe_type> T(num_vertexes(g));
-  dijkstra(initial, P, T, generic_label_creator());
+  dijkstra(initial, P, T, label_creator_cu());
 
   // Get and return the path.
   auto op = trace(initial, v2, generic_tracer(P));
