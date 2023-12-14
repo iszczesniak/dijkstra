@@ -6,13 +6,14 @@
 #include "standard_tracer.hpp"
 #include "graph.hpp"
 #include "label_robe.hpp"
+#include "props.hpp"
 #include "units.hpp"
 
 #include <iostream>
 #include <string>
 
 template <typename Edge>
-using vertex_type_tmp = vertex<Edge, index<unsigned>,
+using vertex_type_tmp = vertex<Edge, key<unsigned>,
                                name<std::string>>;
 
 using edge_type = edge<vertex_type_tmp, weight<unsigned>>;
