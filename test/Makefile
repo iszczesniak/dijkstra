@@ -2,7 +2,7 @@ TESTS = generic standard
 
 # On OpenBSD I'm using Clang 17 from ports, because previous compiler
 # versions (the default 13, and the 16 from a package and ports) fail.
-CXX = /usr/local/llvm16/bin/clang++
+CXX = /usr/local/llvm17/bin/clang++
 
 #CXXFLAGS = -g -Wno-deprecated
 CXXFLAGS = -O3 -Wno-deprecated
