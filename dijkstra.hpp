@@ -121,9 +121,7 @@ relax(const Label &l, const Edge<Label> &e,
 	  {
 	    purge_worse(T, cl);
 	    // We push the new label after purging, so that purging
-	    // has less work, i.e., a smaller T.  Furthermore, in
-	    // purge_worse we are using the <= operator, which would
-	    // remove the label we push below.
+	    // has less work, i.e., a smaller T.
 	    T.push(std::move(cl));
 	  }
     } catch (bool no_label)
