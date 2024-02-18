@@ -118,12 +118,7 @@ relax(const Label &l, const Edge<Label> &e,
 
       for (auto &cl: cls)
 	if (!has_better_or_equal(P, cl) && !has_better_or_equal(T, cl))
-	  {
-	    purge_worse(T, cl);
-	    // We push the new label after purging, so that purging
-	    // has less work, i.e., a smaller T.
-	    T.push(std::move(cl));
-	  }
+          T.push(std::move(cl));
     } catch (bool no_label)
     {
       assert(no_label);
