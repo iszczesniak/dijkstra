@@ -1,6 +1,7 @@
 PROGS = generic standard
 SRCS_generic = generic.cc
 SRCS_standard = standard.cc
+MAN =
 
 CXX = clang++-17
 
