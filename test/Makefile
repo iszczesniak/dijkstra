@@ -1,36 +1,18 @@
-TESTS = generic standard
+PROGS = generic standard
+SRCS_generic = generic.cc
+SRCS_standard = standard.cc
 
-# On OpenBSD I'm using Clang 17 from ports, because previous compiler
-# versions (the default 13, and the 16 from a package and ports) fail.
-CXX = /usr/local/llvm17/bin/clang++
+CXX = clang++-17
 
-#CXXFLAGS = -g -Wno-deprecated
-CXXFLAGS = -O3 -Wno-deprecated
+#CXXFLAGS += -g -Wno-deprecated
+CXXFLAGS += -O3 -Wno-deprecated
 
-CXXFLAGS := -std=c++20
-CXXFLAGS := $(CXXFLAGS) -I ../
-CXXFLAGS := $(CXXFLAGS) -I generic_dijkstra
-CXXFLAGS := $(CXXFLAGS) -I graph
-CXXFLAGS := $(CXXFLAGS) -I props
-CXXFLAGS := $(CXXFLAGS) -I standard_dijkstra
-CXXFLAGS := $(CXXFLAGS) -I units
+CXXFLAGS += -std=c++20
+CXXFLAGS += -I ../
+CXXFLAGS += -I generic_dijkstra
+CXXFLAGS += -I graph
+CXXFLAGS += -I props
+CXXFLAGS += -I standard_dijkstra
+CXXFLAGS += -I units
 
-# Use the C++ linker
-LINK.o = $(LINK.cc)
-
-# Run the tests.
-run: $(TESTS)
-	@for i in $(TESTS); do echo "Running" $$i; ./$$i; done
-
-count:
-	wc -l *.hpp *.cc
-
-clean:
-	rm -rf *~
-	rm -rf *.o
-	rm -rf $(TESTS)
-
-depend:
-	g++ -MM $(CXXFLAGS) *.cc > dependencies
-
-include dependencies
+.include <bsd.prog.mk>
