@@ -1,14 +1,12 @@
-PROGS = generic standard
-SRCS_generic = generic.cc
-SRCS_standard = standard.cc
-MAN =
+SRCS != ls *.cc
+PROGS = $(SRCS:R)
 
 CXX = clang++-17
 
 #CXXFLAGS += -g -Wno-deprecated
 CXXFLAGS += -O3 -Wno-deprecated
 
-CXXFLAGS += -std=c++20
+CXXFLAGS += -std=c++23
 CXXFLAGS += -I ../
 CXXFLAGS += -I generic_dijkstra
 CXXFLAGS += -I graph
@@ -16,4 +14,6 @@ CXXFLAGS += -I props
 CXXFLAGS += -I standard_dijkstra
 CXXFLAGS += -I units
 
-.include <bsd.prog.mk>
+# Run the tests.
+all: $(PROGS)
+	@for i in $(PROGS); do echo "Running" $$i; ./$$i; done
