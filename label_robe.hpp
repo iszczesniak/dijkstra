@@ -33,7 +33,7 @@ operator << (std::ostream &os, const label_robe<Edge, Label> &r)
 {
   os << "label_robe("
      << "edge = " << r.m_edge << ", "
-     << "label = " << static_cast<Label>(r)
+     << "label = " << static_cast<const Label &>(r)
      << ")";
                                  
   return os;                    
