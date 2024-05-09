@@ -9,21 +9,27 @@
 template <typename Edge, typename Label>
 struct label_robe: Label
 {
-  using base_type = Label;
+  using label_type = Label;
   const Edge &m_edge;
 
   template <typename ... Args>
   label_robe(const Edge &edge, Args && ... args):
-    base_type(std::forward<Args>(args) ...), m_edge(edge)
+    label_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
 
-  // We delegate <=> to base_type.  We do not want the default
-  // implementation of <=> (i.e., lexicographic comparison), because
-  // m_edge should not take part.
+  // We delegate == and <=> to label_type.  We do not want the default
+  // implementations, because m_edge should not take part.
+  constexpr bool operator == (const label_robe &l) const
+  {
+    return static_cast<const label_type &>(*this)
+      == static_cast<const label_type &>(l);
+  }
+
   constexpr auto operator <=> (const label_robe &l) const
   {
-    return base_type::operator<=>(l);
+    return static_cast<const label_type &>(*this)
+      <=> static_cast<const label_type &>(l);
   }
 };
 
