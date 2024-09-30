@@ -3,7 +3,7 @@
 #include "standard_constrained_label_creator.hpp"
 #include "standard_permanent.hpp"
 #include "standard_tentative.hpp"
-#include "standard_tracer.hpp"
+#include "standard_path_range.hpp"
 #include "graph.hpp"
 #include "label_robe.hpp"
 #include "props.hpp"
@@ -39,21 +39,20 @@ main()
     standard_permanent<robe_type> P(num_vertexes(g));
     standard_tentative<robe_type> T(num_vertexes(g));
     dijkstra(initial, P, T, standard_constrained_label_creator(5u));
-    auto op = trace(initial, v2, standard_tracer(P));
-    assert(!op);
+    // There is no label for vertex v2.
+    assert(!P[get_key(v2)]);
   }
 
   {
     standard_permanent<robe_type> P(num_vertexes(g));
     standard_tentative<robe_type> T(num_vertexes(g));
     dijkstra(initial, P, T, standard_label_creator());
-    auto op = trace(initial, v2, standard_tracer(P));
+    assert(P[get_key(v2)]);
 
-    if (op)
-      {
-        const auto &p = op.value();
-        for(const auto &l: p)
-          std::cout << l << std::endl;
-      }
+    // The label at the destination.
+    const auto &l = P[get_key(v2)].value();
+
+    for(const auto &l: standard_path_range(P, l, initial))
+      std::cout << l << std::endl;
   }
 }

@@ -125,28 +125,4 @@ relax(const Label &l, const Edge<Label> &e,
     }
 }
 
-/**
- * Build the path by tracing labels.
- */
-template <typename Label, typename Vertex, typename Tracer>
-std::optional<typename Tracer::path_type>
-trace(const Label &initial, const Vertex &dst, const Tracer &t)
-{
-  if (const auto &vd = t[dst]; !std::empty(vd))
-    {
-      // This is the path we're building.
-      typename Tracer::path_type result;
-
-      // Get the initial label, i.e. the label for the destination.
-      for(auto i = t.init(vd); *i != initial; i = t.advance(i))
-        t.push(result, i);
-
-      // Move the result to the optional object we return.
-      return std::move(result);
-    }
-
-  // We return an empty optional, becase no path was found.
-  return {};
-}
-
 #endif // DIJKSTRA_HPP
