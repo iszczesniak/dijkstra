@@ -1,8 +1,8 @@
 #include "dijkstra.hpp"
 #include "generic_label.hpp"
+#include "generic_path_range.hpp"
 #include "generic_permanent.hpp"
 #include "generic_tentative.hpp"
-#include "generic_tracer.hpp"
 #include "graph.hpp"
 #include "label_creator_cu.hpp"
 #include "label_robe.hpp"
@@ -40,13 +40,9 @@ main()
   generic_tentative<robe_type> T(num_vertexes(g));
   dijkstra(initial, P, T, label_creator_cu());
 
-  // Get and return the path.
-  auto op = trace(initial, v2, generic_tracer(P));
+  // The label at the destination.
+  const auto &l = P[get_key(v2)].front();
 
-  if (op)
-    {
-      const auto &p = op.value();
-      for(const auto &l: p)
-        std::cout << l << std::endl;
-    }
+  for(const auto &l: generic_path_range(P, l, initial))
+    std::cout << l << std::endl;
 }
