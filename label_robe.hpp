@@ -30,14 +30,13 @@ struct label_robe: Label
 
   // Yet, the defautl implementation does not compile, and the
   // compiler (both clang and GCC) complains that they don't like the
-  // reference member m_edge.  I don't know what's going on.
+  // reference member m_edge.  I don't know what's going on.  So I
+  // have to implement the default behavious myself.
   constexpr bool operator == (const label_robe &l) const
   {
-    // This should suffice, even though this is not the default
-    // implementation.  We're comparing the robed labels, and
-    // specifically we compare to the initial label that has the null
-    // edge.  This implementation is an experiment.
-    return m_edge == l.m_edge;
+    return static_cast<const label_type &>(*this)
+      == static_cast<const label_type &>(l) &&
+      m_edge == l.m_edge;
   }
 
   // This comparison operator is used to establish order between robed

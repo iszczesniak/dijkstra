@@ -38,11 +38,12 @@ main()
 
   generic_permanent<robe_type> P(num_vertexes(g));
   generic_tentative<robe_type> T(num_vertexes(g));
-  dijkstra(initial, P, T, label_creator_cu());
+  label_creator_cu f;
+  dijkstra(initial, P, T, f);
 
   // The label at the destination.
   const auto &l = P[get_key(v2)].front();
 
-  for(const auto &l: generic_path_range(P, l, initial))
+  for(const auto &l: generic_path_range(P, f, l, initial))
     std::cout << l << std::endl;
 }
