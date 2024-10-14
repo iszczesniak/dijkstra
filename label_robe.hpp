@@ -31,7 +31,7 @@ struct label_robe: Label
   // Yet, the defautl implementation does not compile, and the
   // compiler (both clang and GCC) complains that they don't like the
   // reference member m_edge.  I don't know what's going on.  So I
-  // have to implement the default behavious myself.
+  // have to implement the default behaviour myself.
   constexpr bool operator == (const label_robe &l) const
   {
     return static_cast<const label_type &>(*this)
