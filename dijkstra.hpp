@@ -125,4 +125,44 @@ relax(const Label &l, const Edge<Label> &e,
     }
 }
 
+/**
+ * Trace back the labels.
+ */
+template <typename Range, typename Permanent, typename Label,
+          typename Functor>
+auto
+trace(const Permanent &P, const Functor &f,
+      const Label &last, const Label &init)
+{
+  // The list of labels.
+  std::list<Label> result;
+
+  for(const auto &l: Range(P, f, last, init))
+    result.push_front(l);
+
+  return result;
+}
+
+/**
+ * Trace back the labels.
+ */
+template <typename Range, typename Permanent, typename Vertex,
+	  typename Label, typename Functor>
+std::optional<std::list<Label>>
+trace(const Permanent &P, const Functor &f,
+      const Vertex &dst, const Label &init)
+{
+  // Make sure there is the solution for vertex dst.
+  if (const auto &vd = P[get_key(dst)]; !std::empty(vd))
+    {
+      const auto &last = vd.front();
+      // Move the result to the optional object we return.
+      return trace<Range>(P, f, last, init);
+    }
+
+  // We return an empty optional, becase no path was found.
+  return {};
+}
+
+
 #endif // DIJKSTRA_HPP
