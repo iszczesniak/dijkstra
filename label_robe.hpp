@@ -18,35 +18,9 @@ struct label_robe: Label
   {
   }
 
-  // We do want the default implementation of == for the robed label,
-  // because the path iterators need it.  The iterators use == to stop
-  // when the initial robed label is reached.  The problem is that
-  // comparing the naked labels (i.e., label_type) is not enough,
-  // because they all can be equal along the path (e.g, 0), so we only
-  // know when to stop when the initial robed label is reached.  We
-  // recognize the initial robed label by its edge.  And so edges do
-  // have to be compared.  The default implementation first compares
-  // the based objects, then the member objects.
-
-  // Yet, the defautl implementation does not compile, and the
-  // compiler (both clang and GCC) complains that they don't like the
-  // reference member m_edge.  I don't know what's going on.  So I
-  // have to implement the default behaviour myself.
-  constexpr bool operator == (const label_robe &l) const
-  {
-    return static_cast<const label_type &>(*this)
-      == static_cast<const label_type &>(l) &&
-      m_edge == l.m_edge;
-  }
-
-  // This comparison operator is used to establish order between robed
-  // labels.  The order is the same as for the naked labels, so we
-  // relagate.  We do not want the edge to take part in comparison.
-  constexpr auto operator <=> (const label_robe &l) const
-  {
-    return static_cast<const label_type &>(*this)
-      <=> static_cast<const label_type &>(l);
-  }
+  // Relegate the comparison to the label.
+  using label_type::operator ==;
+  using label_type::operator <=>;
 };
 
 template <typename Edge, typename Label>
