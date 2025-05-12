@@ -6,6 +6,8 @@
 #include <iostream>
 #include <utility>
 
+// Important: this class does not offer comparison operatos, because
+// the operators of the base type are used.
 template <typename Edge, typename Label>
 struct label_robe: Label
 {
@@ -17,10 +19,6 @@ struct label_robe: Label
     label_type(std::forward<Args>(args) ...), m_edge(edge)
   {
   }
-
-  // Relegate the comparison to the label.
-  using label_type::operator ==;
-  using label_type::operator <=>;
 };
 
 template <typename Edge, typename Label>
